@@ -6,8 +6,6 @@ TypeScriptで実装したCQRS/Event Sourcingの実装例
 
 このプロジェクトは、CQRS（Command Query Responsibility Segregation）とEvent Sourcingパターンを使用したグループチャットアプリケーションのTypeScript実装です。
 
-元のGoプロジェクト: [cqrs-es-example-go](https://github.com/j5ik2o/cqrs-es-example-go)
-
 ## 機能
 
 - ✅ Write API Server (GraphQL Mutation)
@@ -60,6 +58,7 @@ node dist/apps/write-api/server.js
 ```
 
 サーバーが起動すると以下のURLでアクセス可能：
+
 - GraphQL Endpoint: http://localhost:4000/graphql
 - Apollo Playground: http://localhost:4000/graphql
 
@@ -82,6 +81,7 @@ node dist/apps/read-api/server.js
 ```
 
 サーバーが起動すると以下のURLでアクセス可能：
+
 - GraphQL Endpoint: http://localhost:4001/graphql
 - Apollo Playground: http://localhost:4001/graphql
 
@@ -102,6 +102,7 @@ npm run dev:local-rmu
 ```
 
 ※ 事前にMySQLでRead Modelスキーマを作成する必要があります：
+
 ```bash
 mysql -u root -p < src/query/schema/schema.sql
 ```
@@ -171,10 +172,7 @@ query {
 
 ```graphql
 mutation {
-  createGroupChat(input: {
-    name: "開発チーム"
-    executorId: "user-001"
-  }) {
+  createGroupChat(input: { name: "開発チーム", executorId: "user-001" }) {
     groupChatId
     success
   }
@@ -185,11 +183,9 @@ mutation {
 
 ```graphql
 mutation {
-  renameGroupChat(input: {
-    groupChatId: "グループチャットID"
-    name: "新しい名前"
-    executorId: "user-001"
-  }) {
+  renameGroupChat(
+    input: { groupChatId: "グループチャットID", name: "新しい名前", executorId: "user-001" }
+  ) {
     groupChatId
     success
   }
@@ -200,12 +196,14 @@ mutation {
 
 ```graphql
 mutation {
-  addMember(input: {
-    groupChatId: "グループチャットID"
-    userAccountId: "user-002"
-    role: MEMBER
-    executorId: "user-001"
-  }) {
+  addMember(
+    input: {
+      groupChatId: "グループチャットID"
+      userAccountId: "user-002"
+      role: MEMBER
+      executorId: "user-001"
+    }
+  ) {
     groupChatId
     success
   }
@@ -216,11 +214,9 @@ mutation {
 
 ```graphql
 mutation {
-  postMessage(input: {
-    groupChatId: "グループチャットID"
-    text: "こんにちは！"
-    executorId: "user-001"
-  }) {
+  postMessage(
+    input: { groupChatId: "グループチャットID", text: "こんにちは！", executorId: "user-001" }
+  ) {
     groupChatId
     messageId
     success
@@ -232,12 +228,14 @@ mutation {
 
 ```graphql
 mutation {
-  editMessage(input: {
-    groupChatId: "グループチャットID"
-    messageId: "メッセージID"
-    text: "編集後のメッセージ"
-    executorId: "user-001"
-  }) {
+  editMessage(
+    input: {
+      groupChatId: "グループチャットID"
+      messageId: "メッセージID"
+      text: "編集後のメッセージ"
+      executorId: "user-001"
+    }
+  ) {
     groupChatId
     messageId
     success
@@ -249,11 +247,9 @@ mutation {
 
 ```graphql
 mutation {
-  deleteMessage(input: {
-    groupChatId: "グループチャットID"
-    messageId: "メッセージID"
-    executorId: "user-001"
-  }) {
+  deleteMessage(
+    input: { groupChatId: "グループチャットID", messageId: "メッセージID", executorId: "user-001" }
+  ) {
     groupChatId
     messageId
     success
@@ -265,11 +261,9 @@ mutation {
 
 ```graphql
 mutation {
-  removeMember(input: {
-    groupChatId: "グループチャットID"
-    userAccountId: "user-002"
-    executorId: "user-001"
-  }) {
+  removeMember(
+    input: { groupChatId: "グループチャットID", userAccountId: "user-002", executorId: "user-001" }
+  ) {
     groupChatId
     success
   }
@@ -280,10 +274,7 @@ mutation {
 
 ```graphql
 mutation {
-  deleteGroupChat(input: {
-    groupChatId: "グループチャットID"
-    executorId: "user-001"
-  }) {
+  deleteGroupChat(input: { groupChatId: "グループチャットID", executorId: "user-001" }) {
     groupChatId
     success
   }
@@ -390,6 +381,7 @@ Write → EventStore → Streams → RMU → Read Model
 ## 実装状況
 
 ### ✅ 完了
+
 - プロジェクト基盤構築
 - Event Store Adapter基本型定義
 - Value Objects (10クラス)
@@ -412,6 +404,7 @@ Write → EventStore → Streams → RMU → Read Model
 - Read API Server (Express + Apollo)
 
 ### 🚧 未実装
+
 - Docker Compose
 - テストコード
 - AWS Lambda デプロイ (CDK/SAM)

@@ -1,0 +1,324 @@
+"""
+Write API GraphQL Schema
+グループチャットのコマンド（Mutation）を定義
+"""
+
+type Query {
+  """
+  ヘルスチェック用
+  """
+  health: String!
+}
+
+type Mutation {
+  """
+  グループチャットを作成
+  """
+  createGroupChat(input: CreateGroupChatInput!): CreateGroupChatPayload!
+
+  """
+  グループチャットを削除
+  """
+  deleteGroupChat(input: DeleteGroupChatInput!): DeleteGroupChatPayload!
+
+  """
+  グループチャット名を変更
+  """
+  renameGroupChat(input: RenameGroupChatInput!): RenameGroupChatPayload!
+
+  """
+  メンバーを追加
+  """
+  addMember(input: AddMemberInput!): AddMemberPayload!
+
+  """
+  メンバーを削除
+  """
+  removeMember(input: RemoveMemberInput!): RemoveMemberPayload!
+
+  """
+  メッセージを投稿
+  """
+  postMessage(input: PostMessageInput!): PostMessagePayload!
+
+  """
+  メッセージを編集
+  """
+  editMessage(input: EditMessageInput!): EditMessagePayload!
+
+  """
+  メッセージを削除
+  """
+  deleteMessage(input: DeleteMessageInput!): DeleteMessagePayload!
+}
+
+# ====================================
+# Input Types
+# ====================================
+
+input CreateGroupChatInput {
+  """
+  グループチャット名
+  """
+  name: String!
+
+  """
+  実行者のユーザーアカウントID
+  """
+  executorId: String!
+}
+
+input DeleteGroupChatInput {
+  """
+  グループチャットID
+  """
+  groupChatId: String!
+
+  """
+  実行者のユーザーアカウントID
+  """
+  executorId: String!
+}
+
+input RenameGroupChatInput {
+  """
+  グループチャットID
+  """
+  groupChatId: String!
+
+  """
+  新しい名前
+  """
+  name: String!
+
+  """
+  実行者のユーザーアカウントID
+  """
+  executorId: String!
+}
+
+input AddMemberInput {
+  """
+  グループチャットID
+  """
+  groupChatId: String!
+
+  """
+  追加するユーザーアカウントID
+  """
+  userAccountId: String!
+
+  """
+  役割（ADMIN または MEMBER）
+  """
+  role: MemberRole!
+
+  """
+  実行者のユーザーアカウントID
+  """
+  executorId: String!
+}
+
+input RemoveMemberInput {
+  """
+  グループチャットID
+  """
+  groupChatId: String!
+
+  """
+  削除するユーザーアカウントID
+  """
+  userAccountId: String!
+
+  """
+  実行者のユーザーアカウントID
+  """
+  executorId: String!
+}
+
+input PostMessageInput {
+  """
+  グループチャットID
+  """
+  groupChatId: String!
+
+  """
+  メッセージテキスト
+  """
+  text: String!
+
+  """
+  実行者のユーザーアカウントID
+  """
+  executorId: String!
+}
+
+input EditMessageInput {
+  """
+  グループチャットID
+  """
+  groupChatId: String!
+
+  """
+  メッセージID
+  """
+  messageId: String!
+
+  """
+  新しいメッセージテキスト
+  """
+  text: String!
+
+  """
+  実行者のユーザーアカウントID
+  """
+  executorId: String!
+}
+
+input DeleteMessageInput {
+  """
+  グループチャットID
+  """
+  groupChatId: String!
+
+  """
+  メッセージID
+  """
+  messageId: String!
+
+  """
+  実行者のユーザーアカウントID
+  """
+  executorId: String!
+}
+
+# ====================================
+# Payload Types
+# ====================================
+
+type CreateGroupChatPayload {
+  """
+  作成されたグループチャットID
+  """
+  groupChatId: String!
+
+  """
+  成功フラグ
+  """
+  success: Boolean!
+}
+
+type DeleteGroupChatPayload {
+  """
+  削除されたグループチャットID
+  """
+  groupChatId: String!
+
+  """
+  成功フラグ
+  """
+  success: Boolean!
+}
+
+type RenameGroupChatPayload {
+  """
+  グループチャットID
+  """
+  groupChatId: String!
+
+  """
+  成功フラグ
+  """
+  success: Boolean!
+}
+
+type AddMemberPayload {
+  """
+  グループチャットID
+  """
+  groupChatId: String!
+
+  """
+  成功フラグ
+  """
+  success: Boolean!
+}
+
+type RemoveMemberPayload {
+  """
+  グループチャットID
+  """
+  groupChatId: String!
+
+  """
+  成功フラグ
+  """
+  success: Boolean!
+}
+
+type PostMessagePayload {
+  """
+  グループチャットID
+  """
+  groupChatId: String!
+
+  """
+  メッセージID
+  """
+  messageId: String!
+
+  """
+  成功フラグ
+  """
+  success: Boolean!
+}
+
+type EditMessagePayload {
+  """
+  グループチャットID
+  """
+  groupChatId: String!
+
+  """
+  メッセージID
+  """
+  messageId: String!
+
+  """
+  成功フラグ
+  """
+  success: Boolean!
+}
+
+type DeleteMessagePayload {
+  """
+  グループチャットID
+  """
+  groupChatId: String!
+
+  """
+  メッセージID
+  """
+  messageId: String!
+
+  """
+  成功フラグ
+  """
+  success: Boolean!
+}
+
+# ====================================
+# Enums
+# ====================================
+
+enum MemberRole {
+  """
+  管理者
+  """
+  ADMIN
+
+  """
+  一般メンバー
+  """
+  MEMBER
+}

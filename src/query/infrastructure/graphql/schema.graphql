@@ -1,0 +1,171 @@
+"""
+Read API GraphQL Schema
+グループチャットのクエリ（Query）を定義
+"""
+
+type Query {
+  """
+  ヘルスチェック用
+  """
+  health: String!
+
+  """
+  グループチャット一覧を取得
+  """
+  groupChats(limit: Int = 100, offset: Int = 0): [GroupChat!]!
+
+  """
+  グループチャットの詳細を取得（メンバーとメッセージを含む）
+  """
+  groupChat(id: ID!): GroupChat
+
+  """
+  ユーザーが参加しているグループチャット一覧を取得
+  """
+  myGroupChats(userAccountId: ID!, limit: Int = 100, offset: Int = 0): [GroupChat!]!
+}
+
+# ====================================
+# Types
+# ====================================
+
+"""
+グループチャット
+"""
+type GroupChat {
+  """
+  グループチャットID
+  """
+  id: ID!
+
+  """
+  グループチャット名
+  """
+  name: String!
+
+  """
+  オーナーのユーザーアカウントID
+  """
+  ownerId: ID!
+
+  """
+  メンバー数
+  """
+  memberCount: Int!
+
+  """
+  メッセージ数
+  """
+  messageCount: Int!
+
+  """
+  削除フラグ
+  """
+  deleted: Boolean!
+
+  """
+  作成日時
+  """
+  createdAt: String!
+
+  """
+  更新日時
+  """
+  updatedAt: String!
+
+  """
+  メンバー一覧（詳細取得時のみ）
+  """
+  members: [Member!]
+
+  """
+  メッセージ一覧（詳細取得時のみ）
+  """
+  messages: [Message!]
+}
+
+"""
+グループチャットメンバー
+"""
+type Member {
+  """
+  メンバーID
+  """
+  id: ID!
+
+  """
+  グループチャットID
+  """
+  groupChatId: ID!
+
+  """
+  ユーザーアカウントID
+  """
+  userAccountId: ID!
+
+  """
+  ロール
+  """
+  role: MemberRole!
+
+  """
+  参加日時
+  """
+  joinedAt: String!
+}
+
+"""
+グループチャットメッセージ
+"""
+type Message {
+  """
+  メッセージID
+  """
+  id: ID!
+
+  """
+  グループチャットID
+  """
+  groupChatId: ID!
+
+  """
+  送信者のユーザーアカウントID
+  """
+  senderId: ID!
+
+  """
+  メッセージ本文
+  """
+  text: String!
+
+  """
+  削除フラグ
+  """
+  deleted: Boolean!
+
+  """
+  作成日時
+  """
+  createdAt: String!
+
+  """
+  更新日時
+  """
+  updatedAt: String!
+}
+
+# ====================================
+# Enums
+# ====================================
+
+enum MemberRole {
+  """
+  管理者
+  """
+  ADMIN
+
+  """
+  一般メンバー
+  """
+  MEMBER
+}

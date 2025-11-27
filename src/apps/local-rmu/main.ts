@@ -1,3 +1,4 @@
+import dotenv from 'dotenv';
 import mysql from 'mysql2/promise';
 import { DynamoDBClient, ScanCommand } from '@aws-sdk/client-dynamodb';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
@@ -5,6 +6,9 @@ import { GroupChatDao } from '../../rmu/dao/GroupChatDao';
 import { GroupChatEventHandler } from '../../rmu/handler/GroupChatEventHandler';
 import { GroupChatEventSerializer } from '../../command/infrastructure/serializer/GroupChatEventSerializer';
 import { JournalRow } from '../../shared/event-store-adapter/dynamodb/EventRecord';
+
+// .envファイルから環境変数を読み込み
+dotenv.config();
 
 /**
  * Local Read Model Updater

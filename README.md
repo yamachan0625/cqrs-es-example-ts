@@ -39,6 +39,34 @@ cd /Users/yamashita/cqrs-es-example-ts
 npm install
 ```
 
+### 環境変数の設定
+
+1. `.env.example`をコピーして`.env`ファイルを作成:
+
+```bash
+cp .env.example .env
+```
+
+2. `.env`ファイルを編集して、実際の環境に合わせて値を設定:
+
+```bash
+# Database Configuration (MySQL)
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=your_password
+DB_NAME=group_chat
+
+# API Server Ports
+WRITE_API_PORT=4000
+READ_API_PORT=4001
+
+# AWS Configuration
+AWS_REGION=ap-northeast-1
+JOURNAL_TABLE_NAME=journal
+SNAPSHOT_TABLE_NAME=snapshot
+```
+
 ### ビルド
 
 ```bash
@@ -65,14 +93,6 @@ node dist/apps/write-api/server.js
 ### Read API Server
 
 ```bash
-# 環境変数を設定
-export DB_HOST=localhost
-export DB_PORT=3306
-export DB_USER=root
-export DB_PASSWORD=your_password
-export DB_NAME=group_chat
-export READ_API_PORT=4001
-
 # TypeScriptを直接実行（開発モード）
 npm run dev:read-api
 
@@ -88,15 +108,6 @@ node dist/apps/read-api/server.js
 ### Read Model Updater (Local)
 
 ```bash
-# 環境変数を設定
-export DB_HOST=localhost
-export DB_PORT=3306
-export DB_USER=root
-export DB_PASSWORD=your_password
-export DB_NAME=group_chat
-export JOURNAL_TABLE_NAME=journal
-export AWS_REGION=ap-northeast-1
-
 # DynamoDBからイベントを読み取りMySQLのRead Modelを更新
 npm run dev:local-rmu
 ```
@@ -106,6 +117,8 @@ npm run dev:local-rmu
 ```bash
 mysql -u root -p < src/query/schema/schema.sql
 ```
+
+※ すべてのサーバーは`.env`ファイルから環境変数を自動的に読み込みます。
 
 ## GraphQL APIの使い方
 

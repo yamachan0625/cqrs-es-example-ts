@@ -1,3 +1,4 @@
+import dotenv from 'dotenv';
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import { readFileSync } from 'fs';
@@ -5,6 +6,9 @@ import { join } from 'path';
 import mysql from 'mysql2/promise';
 import { GroupChatDao } from '../../rmu/dao/GroupChatDao';
 import { resolvers, GraphQLContext } from '../../query/infrastructure/graphql/resolvers';
+
+// .envファイルから環境変数を読み込み
+dotenv.config();
 
 /**
  * Read API Server
